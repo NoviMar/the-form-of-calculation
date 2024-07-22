@@ -2,10 +2,8 @@
 require_once 'backend/sdbh.php';
 $dbh = new sdbh();
 
-// Получение товаров
 $products = $dbh->mselect_rows('a25_products', [], 0, 100, 'ID');
 
-// Получение услуг
 $services = unserialize($dbh->mselect_rows('a25_settings', ['set_key' => 'services'], 0, 1, 'ID')[0]['set_value']);
 ?>
 <!DOCTYPE html>
@@ -15,8 +13,9 @@ $services = unserialize($dbh->mselect_rows('a25_settings', ['set_key' => 'servic
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <link href="assets/css/style.css" rel="stylesheet" />
     <link href="assets/css/style_form.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script async src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script defer src="assets/js/script.js"></script>
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -61,20 +60,5 @@ $services = unserialize($dbh->mselect_rows('a25_settings', ['set_key' => 'servic
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function() {
-        $('#calculate-button').click(function() {
-            $.ajax({
-                url: 'calculate.php',
-                type: 'POST',
-                data: $('#calculation-form').serialize(),
-                success: function(response) {
-                    var result = JSON.parse(response);
-                    $('#result').html('Итоговая стоимость: ' + result.total_cost);
-                }
-            });
-        });
-    });
-</script>
 </body>
 </html>
